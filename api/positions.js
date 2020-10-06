@@ -56,6 +56,7 @@ function newFun(callback) {
 }
 
 module.exports = (req, res) => {
+  res.send("surrender");
   // Connect to database and insert default users into users collection
   client.connect((err) => {
     // var dbUsers = [];

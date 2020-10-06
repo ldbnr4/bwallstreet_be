@@ -1,6 +1,3 @@
-var express = require("express");
-var router = express.Router();
-
 const MongoClient = require("mongodb").MongoClient;
 var db;
 
@@ -8,26 +5,7 @@ const client = new MongoClient(process.env.mongodb_url, {
   useNewUrlParser: true
 });
 
-function getData(res) {
-  // Connect to database and insert default users into users collection
-  client.connect((err) => {
-    // var dbUsers = [];
-    console.log("Connected successfully to database");
-
-    db = client.db(process.env.db_name);
-    db.collection("positions")
-      .find({})
-      .toArray(function (err, result) {
-        if (err) throw err;
-        // console.log(result);
-        res.statusCode = 200;
-        res.setHeader("Content-Type", "application/json");
-        res.end(JSON.stringify(result));
-      });
-  });
-}
-
-function newFun(res) {
+function newFun(callback) {
   var credentials = {
     username: process.env.username,
     password: process.env.password
@@ -54,8 +32,6 @@ function newFun(res) {
             positions: body.results
           });
 
-          getData(res);
-
           // // Removes any existing entries in the users collection
           // db.collection("positions").deleteMany(
           //   { name: { $exists: true } },
@@ -79,15 +55,25 @@ function newFun(res) {
   });
 }
 
-/* GET home page. */
-router.get("/", function (req, res, next) {
-  getData(res);
-});
+export default (req, res) => {
+  // Connect to database and insert default users into users collection
+  client.connect((err) => {
+    // var dbUsers = [];
+    console.log("Connected successfully to database");
 
-router.put("/", function (req, res, next) {
-  res.statusCode = 200;
-  res.setHeader("Content-Type", "application/json");
-  newFun(res);
-});
-
-module.exports = router;
+    db = client.db(process.env.db_name);
+    if (req.method === "PUT") {
+      newFun();
+    } else {
+      db.collection("positions")
+        .find({})
+        .toArray(function (err, result) {
+          if (err) throw err;
+          // console.log(result);
+          res.statusCode = 200;
+          res.setHeader("Content-Type", "application/json");
+          res.end(JSON.stringify(result));
+        });
+    }
+  });
+};

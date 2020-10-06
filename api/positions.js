@@ -70,9 +70,9 @@ module.exports = (req, res) => {
         .toArray(function (err, result) {
           if (err) throw err;
           // console.log(result);
-          res.statusCode = 200;
+          res.status(200);
           res.setHeader("Content-Type", "application/json");
-          res.end(JSON.stringify(result));
+          res.send(JSON.stringify(result));
         });
     }
   });

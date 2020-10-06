@@ -55,7 +55,7 @@ function newFun(callback) {
   });
 }
 
-export default (req, res) => {
+module.exports = (req, res) => {
   // Connect to database and insert default users into users collection
   client.connect((err) => {
     // var dbUsers = [];

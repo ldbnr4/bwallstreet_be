@@ -5,7 +5,7 @@ var logger = require("morgan");
 
 var indexRouter = require("./routes/index");
 var usersRouter = require("./routes/users");
-var positionsRouter = require("./routes/positions");
+// var positionsRouter = require("./routes/positions");
 
 var app = express();
 
@@ -17,7 +17,7 @@ app.use(express.static(path.join(__dirname, "public")));
 
 app.use("/", indexRouter);
 app.use("/users", usersRouter);
-app.use("/positions", positionsRouter);
+// app.use("/positions", positionsRouter);
 
 var listener = app.listen(8080, function () {
   console.log("Listening on port " + listener.address().port);

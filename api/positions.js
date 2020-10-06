@@ -1,9 +1,9 @@
-const MongoClient = require("mongodb").MongoClient;
-var db;
+// const MongoClient = require("mongodb").MongoClient;
+// var db;
 
-const client = new MongoClient(process.env.mongodb_url, {
-  useNewUrlParser: true
-});
+// const client = new MongoClient(process.env.mongodb_url, {
+//   useNewUrlParser: true
+// });
 
 function newFun(callback) {
   var credentials = {
@@ -56,7 +56,14 @@ function newFun(callback) {
 }
 
 module.exports = (req, res) => {
-  res.send("surrender");
+  const MongoClient = require("mongodb").MongoClient;
+  var db;
+
+  const client = new MongoClient(process.env.mongodb_url, {
+    useNewUrlParser: true
+  });
+
+  // res.send("surrender");
   // Connect to database and insert default users into users collection
   client.connect((err) => {
     // var dbUsers = [];
